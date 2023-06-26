@@ -49,7 +49,7 @@
     .progress-bar .paso .check{
         display: none;
     }
-
+    .progress-bar .paso .num:before,
     .progress-bar .paso .num:after{
         position: absolute;
         content: '';
@@ -60,62 +60,59 @@
         background: #000;
     }
 
-  
-    
-
+    .progress-bar .paso:last-child .num:before,
+    .progress-bar .paso:last-child .num:after{
+        display: none;
+    }   
 </style>
+
 {% endblock %}
-
-
-
 {% block contenido %}
 
-
+<div class="container">
+    <input type="hidden">
+</div>
 <body>
     <div class="container py-4 ">
-        <div><h2    >Detalles del Pedido</h2></div>
+        <div><h2>Detalles del Pedido</h2></div>
         <div class="row">
             <div class="col" style="background-color: beige;">   
             <div class="col-ms-12 col-md-6 col-lg-8 col-xl-8"></div>
                 <br>
                 <h5><strong>Estado del pedido</strong></h5>
-                <div class="progress-bar">
-                    <div class="paso">
-                        <p>En Preparacion</p>
-                        <div class="nunm">
-                            <span>1</span>
+                    <div class="progress-bar">
+                        <div class="paso">
+                            <p>En Preparacion</p>
+                            <div class="nunm">
+                                <span>1</span>
+                            </div>
+                            <div class="check fas fa-check"></div>
                         </div>
-                        <div class="check fas fa-check"></div>
-                    </div>
-            
-                    <div class="paso">
-                        <p>Enviado</p>
-                        <div class="nunm">
-                            <span>2</span>
+                
+                        <div class="paso">
+                            <p>Enviado</p>
+                            <div class="nunm">
+                                <span>2</span>
+                            </div>
+                            <div class="check fas fa-check"></div>
                         </div>
-                        <div class="check fas fa-check"></div>
-                    </div>
-            
-                    <div class="paso">
-                        <p>En camino</p>
-                        <div class="nunm">
-                            <span>3</span>
+                
+                        <div class="paso">
+                            <p>En camino</p>
+                            <div class="nunm">
+                                <span>3</span>
+                            </div>
+                            <div class="check fas fa-check"></div>
                         </div>
-                        <div class="check fas fa-check"></div>
-                    </div>
-            
-                    <div class="paso">
-                        <p>Recibido</p>
-                        <div class="nunm">
-                            <span>4</span>
+                
+                        <div class="paso">
+                            <p>Recibido</p>
+                            <div class="nunm">
+                                <span>4</span>
+                            </div>
+                            <div class="check fas fa-check"></div>
                         </div>
-                        <div class="check fas fa-check"></div>
                     </div>
-
-                    
-                        
-
-                </div>
 
                 <form>
                 <h5><strong>Pendiente del envío</strong></h5>

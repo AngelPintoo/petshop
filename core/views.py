@@ -101,10 +101,11 @@ def index(request):
 @GRUPO_REQUERIDO('cliente')
 def despacho(request):
     despacho = Despacho.objects.all()
-    # estado = Estado.objects.get(id=despacho.estado)
+    estado = Estado.objects.all()
     datos = {
         'despacho'  : despacho,
-        'estado'    : estado
+        'estado' : estado
+        
     }
     
     return render(request, 'core/despacho.html',datos)
