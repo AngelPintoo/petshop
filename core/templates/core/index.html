@@ -1,0 +1,55 @@
+ {% extends 'core/base.html' %}
+{% load static %}
+{% block css %}
+
+{% endblock %}
+{% block contenido %}
+
+
+
+    <!-- Hero Section Begin -->
+    <section class="hero" style="background-image: url(https://media.tenor.com/twIzlIPSrZcAAAAC/dog.gif)">
+        <div class="container-fluid" style="margin-left: 39%; position: relative; top: 0%;">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="hero__item set-bg">
+                        <div class="hero__text" >
+                            <span>bienvenido</span>
+                            <h2>Petshop <br />100% Confiable</h2>
+                            <p>compra en linea con despacho</p>
+                            <a href="{% url 'tienda' %}" class="primary-btn">Ir a tienda</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+
+    <section class="featured spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h1><em>Quienes Somos</em></h1>
+                        <p class="" style="text-align: justify;">Somos una paguina pet shop que para proporciona productos y servicios relacionados con mascotas. 
+                            Un pet shop es una tienda especializada que ofrece una amplia gama de productos para el cuidado 
+                            y bienestar de diferentes tipos de animales domésticos, como perros, gatos, aves, roedores, reptiles y peces. 
+                            La página de pet shop en línea a los usuarios brinda la oportunidad de explorar y adquirir alimentos para mascotas, juguetes, ropa, accesorios, 
+                            productos de higiene, medicamentos, camas y otros suministros necesarios para el cuidado de sus mascotas. 
+                            Además, también puede proporcionar información útil sobre el cuidado de los animales, consejos de entrenamiento y recursos para quienes deseen adoptar una mascota. En resumen,
+                            la página de pet shop es un recurso integral para los amantes de las mascotas, brindando los mejores productos,!</p>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- Featured Section End -->
+
+{% endblock %}
+{% block js %}
+<script src="{% static 'core/js/mensaje.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}

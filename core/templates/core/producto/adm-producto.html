@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block contenido %}
+
+<section class="">
+    <div class="container py-4 ">
+        <div class="row justify-content-center">
+            <div class="col-ms-12 col-md-6 col-lg-8 col-xl-8">
+                <h1>Listado de Productos</h1>
+                <div class="table-reponsive py-3">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Tipo</th>
+                                <th colspan="2">Opciones</th>
+                                <th class="button" value="agregar"><a href="{% url 'add' %}"></a></th>
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody>
+                            {% for aux in listado%}
+                            <tr>
+                                <td>{{aux.nombre}}</td>
+                                <td>{{aux.precio}}</td>
+                                <td>{{aux.stock}} </td>
+                                <td>{{aux.tipo}}</td>
+                                <!-- <td><a href="{% url 'add' %}"><i class="fa fa-plus"></i></a></td> -->
+                                <td><a href="{% url 'update' aux.id %}"><i class="fa fa-solid fa-arrows-rotate"></i></a>
+                                </td>
+                                <td><a onclick="eliminar({{aux.id}})"><i class="fa fa-solid fa-trash "></i></a></td>
+
+                            </tr>
+                            {% endfor%}
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col " style="text-align: center; ">
+                <p style=" float:right"><a href="{% url 'add' %}" class="btn btn-success  ">Agregar</a></p>
+            </div>
+            <div class="col" style="text-align: center;">
+                <p style=" float:left "><a href="{% url 'tienda' %}" class="btn btn-success  ">Tienda</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}

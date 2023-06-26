@@ -1,0 +1,136 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    label {
+        display: block;
+        margin-top: 10px;
+    }   
+    
+    .container .progress-bar{
+	display: flex;
+	margin: 40px 0;
+    }
+
+    .container .progress-bar .paso{
+        text-align: center;
+        width: 100%;
+    }
+
+    .progress-bar .paso p{
+        font-size: 18px;
+        font-weight: 500;
+        color: #000;
+        margin-bottom: 8px;
+    }
+
+    .progress-bar .paso .num{
+        position: relative;
+        width: 25px;
+        height: 25px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        display: inline-block;
+        font-weight: 500;
+        font-size: 17px;
+        line-height: 25px;
+    }
+
+    .progress-bar .paso .num .span{
+        font-weight: 500;
+        font-size: 17px;
+        line-height: 25px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .progress-bar .paso .check{
+        display: none;
+    }
+
+    .progress-bar .paso .num:after{
+        position: absolute;
+        content: '';
+        width: 44px;
+        height: 3px;
+        bottom: 11px;
+        right: -53px;
+        background: #000;
+    }
+
+  
+    
+
+</style>
+{% endblock %}
+
+
+
+{% block contenido %}
+
+
+<body>
+    <div class="container py-4 ">
+        <div><h2    >Detalles del Pedido</h2></div>
+        <div class="row">
+            <div class="col" style="background-color: beige;">   
+            <div class="col-ms-12 col-md-6 col-lg-8 col-xl-8"></div>
+                <br>
+                <h5><strong>Estado del pedido</strong></h5>
+                <div class="progress-bar">
+                    <div class="paso">
+                        <p>En Preparacion</p>
+                        <div class="nunm">
+                            <span>1</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+            
+                    <div class="paso">
+                        <p>Enviado</p>
+                        <div class="nunm">
+                            <span>2</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+            
+                    <div class="paso">
+                        <p>En camino</p>
+                        <div class="nunm">
+                            <span>3</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+            
+                    <div class="paso">
+                        <p>Recibido</p>
+                        <div class="nunm">
+                            <span>4</span>
+                        </div>
+                        <div class="check fas fa-check"></div>
+                    </div>
+
+                    
+                        
+
+                </div>
+
+                <form>
+                <h5><strong>Pendiente del envío</strong></h5>
+                <h6>Tiempo Estimado:</h6>
+                <br>
+                <br>
+                </form>         
+            </div>  
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+
+

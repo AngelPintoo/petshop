@@ -1,0 +1,144 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block css %}
+
+{% endblock %}
+{% block contenido %}
+<!-- Hero Section Begin -->
+<section class="hero hero-normal">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="hero__categories">
+                    <div class="hero__categories__all">
+                        <i class="fa fa-bars"></i>
+                        <span>Categorias</span>
+                    </div>
+                    <ul>
+                        <li><a href="#"></a></li>
+                        <li><a href="#">Accesorios</a></li>
+                        <li><a href="#">Bandanas</a></li>
+                        <li><a href="#">Correas</a></li>
+                        <li><a href="#">Placas ID</a></li>
+                        <li><a href="#">Comida Perro</a></li>
+                        <li><a href="#">Comida Gato</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form action="#">
+                            <input type="text" placeholder="Que Buscas?">
+                            <button type="submit" class="site-btn">BUSCAR</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="featured spad">
+    <div class="container">
+        <div class="row featured__filter">
+            {% for aux in lp %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat"> 
+                {% if aux.imagen %} 
+                <img src="{{ aux.imagen.url }}" style="width: 800px; height: 240px;">
+                {% else %}
+                <img src="{% static 'core/img/ban-1.jpg' %}" style="width: 800px; height: 240px;">
+                {% endif %}
+                <div class="featured__item">
+                    <div class="featured__item__pic set-bg" style="margin-top: -255px;">
+                        <ul class="featured__item__pic__hover" >
+                            {% if user.is_superuser %}
+                                <li><a href="{% url 'add' %}"><i class="fa fa-plus"></i></a></li> 
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="container featured__item__text">
+                        <div class="row" style="margin-left: -14px;">
+                            <div class="col6"> 
+                                <h5 style="float: left;">{{ aux.nombre }}</h5>
+                            </div>
+                            <div class="col6" style="margin-left: 40px;">
+                                 <h5 style="float: right; color: rgb(115, 119, 119); font-size: x-large; font-family: Arial, Helvetica, sans-serif;">${{ aux.precio }}</h5>
+                            </div>
+                           
+                        </div>
+
+                         <div class="row" style="margin-top: 10px; ">
+                             <h5 style="font: oblique;">Stock: {{ aux.stock }}</h5>
+                         </div>
+                       
+
+                    </div>
+                    <form action="" method="POST">
+                        <input type="hidden" name="nombre_producto" id="nombre_producto" values="{{ aux.nombre }}">
+                        <input type="hidden" name="precio" id="precio" values="{{ aux.precio }}">
+                        <input type="hidden" name="stock" id="stock" values="{{ aux.stock }}">
+                        <input type="hidden" name="imagen" id="imagen" values="{{ aux.imagen }}">
+                        <input type="submit" class="btn btn-success">
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% include 'core/paginator.html' %}
+    </div>
+</section>
+<!-- Product Section End -->
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'core/js/mensaje.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}
+
+<!-- 
+def tienda(request):
+    ProductosAll = Producto.objects.all()
+    datos = {'lp' : ProductosAll} # OBTENEMOS LA VARIABLE DE LA URL, SI NO EXISTE NADA DEVUELVE 1
+
+    if request.method == 'POST':
+        carrito = carrito()
+        carrito.nombre_producto = request.POST.get('nombre_producto')
+        carrito.precio= request.POST.get('precio')
+        carrito.stock = request.POST.get('stock')
+        carrito.imagen = request.POST.get('imagen')
+        carrito.stock = request.POST.get('stock')
+        carrito.save() -->
+
+        <!-- {% for aux in listaCarrito%}
+        <tr>
+            <td>{{aux.imagen}}</td>
+            <td>{{aux.nombre_producto}}</td>
+            <td>{{aux.precio}}</td>
+            <td>{{aux.stock}} </td>
+            <td>{{aux.d}}</td>
+            <td><a onclick="eliminar({{aux.producto}})"><i class="fa fa-solid fa-trash"></i></a></td>
+        </tr>
+        {% endfor%} -->
+
+
+
+
+{% comment %} 
+
+        #producto = Producto.objects.get(id=id_producto)
+        #Carrito = Carrito.objects.create(id_producto=producto)  {% endcomment %}
+{% comment %} 
+        {% csrf_token %}
+                            {% if aux in listaCarrito %}
+                                {% if x in lp %}
+                                    {% if aux.id_producto == x.id_producto %}
+                                    <tr>
+                                        <td>{{ x.nombre_producto }}</td>
+                                        <td>{{ x.precio }}</td>
+                                        <td><a onclick="eliminar({{ aux.id_producto }})"><i class="fa fa-solid fa-trash"></i></a></td>
+                                    </tr>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %} {% endcomment %}

@@ -1,0 +1,70 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block contenido %}
+
+
+<section class="featured spad">
+    <div class="container">
+        <div class="row featured__filter">
+            {% for aux in lp %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+                {% if aux.imagen %}
+                <img src="{{ aux.imagen.url }}" style="width: 800px; height: 240px;">
+                {% else %}
+                <img src="{% static 'core/img/ban-1.jpg' %}" style="width: 800px; height: 240px;">
+                {% endif %}
+                <div class="featured__item">
+                    <div class="featured__item__pic set-bg" style="margin-top: -255px;">
+                        <ul class="featured__item__pic__hover">
+                            {% if user.is_superuser %}
+                            <li><a href="{% url 'carrito' %}"><i class="fa fa-plus"></i></a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="container featured__item__text">
+                        <div class="row" style="margin-left: -14px;">
+                            <div class="col-6">
+                                <h5 style="float: left;">{{ aux.nombre }}</h5>
+                            </div>
+                            <div class="col-6" style="margin-left: 40px;">
+                                <h5 style="float: right; color: rgb(115, 119, 119); font-size: x-large; font-family: Arial, Helvetica, sans-serif;">${{ aux.precio }}</h5>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px;">
+                            <h5 style="font-style: oblique;">Stock: {{ aux.stock }}</h5>
+                        </div>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="nombre_producto" id="nombre_producto" value="{{ aux.nombre }}">
+                        <input type="hidden" name="precio" id="precio" value="{{ aux.precio }}">
+                        <input type="hidden" name="stock" id="stock" value="{{ aux.stock }}">
+                        <input type="hidden" name="imagen" id="imagen" value="{{ aux.imagen }}">
+                        <input type="hidden" name="id_producto" value="{{ aux.id }}">
+                        <input type="submit" class="btn btn-success" value="Agregar al Carrito">
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% include 'core/paginator.html' %}
+    </div>
+</section>
+
+{% endblock %}
+
+
+
+
+{% block js %}
+<script src="{% static 'core/js/mensaje.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock %}
+
