@@ -15,14 +15,3 @@ class ProductoSeralizer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TiposUsuarioSeralizer(serializers.ModelSerializer):
-      class Meta:
-        model = TipoUsuario
-        fields = '__all__'
- 
-class UsuarioSeralizer(serializers.ModelSerializer):
-    tipo = TiposUsuarioSeralizer(read_only=True)
-    
-    class Meta:
-        model = Usuario
-        fields = '__all__'

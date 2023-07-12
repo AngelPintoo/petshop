@@ -1,8 +1,12 @@
 from django import forms
 from django.forms import ModelForm
 from .models import *
+from django.contrib.auth.forms import UserCreationForm
+from .views import *
+from django.contrib.auth.models import User
 
 class ProductoForm(ModelForm):
+    
 
     nombre = forms.CharField(min_length=4,widget=forms.TextInput(attrs={"placeholder":"Ingrese Nombre"}))
     precio = forms.IntegerField(min_value=0,widget=forms.NumberInput(attrs={"placeholder":"Ingrese Precio"}))
@@ -14,9 +18,18 @@ class ProductoForm(ModelForm):
         fields = '__all__'
 
 
+class CustomUserCreationForm(UserCreationForm):
+	email = forms.EmailField(required=True)
 
+	class Meta:
+		model = User
+		fields = ['username', 'first_name', 'last_name', 'email']
+	def clean_email(self):
+		email = self.cleaned_data['email']
 
-
+		if User.objects.filter(email=email).exists():
+			raise forms.ValidationError('Este correo electrónico ya está registrado')
+		return email
 
 
 

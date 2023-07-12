@@ -8,24 +8,21 @@ from django.contrib.auth.decorators import login_required
 router = routers.DefaultRouter()
 router.register('productos', ProductoViewset)
 router.register('tiposproductos', TiposproductoViewset)
-router.register('TipoUsuario', TipoUsuarioViewset)
-router.register('usuario', UsuarioViewset)
+
 
 urlpatterns = [
     path('api/', include(router.urls)),
     #index
     path('', index, name="index"),
     path('tiendaapi/',tiendaapi, name="tiendaapi"),
-
     # Despacho 
-    path('despacho', login_required(despacho), name="despacho"),
+    path('seguimiento', login_required(seguimiento), name="seguimiento"),
     #tienda
-
     path('pagar/', login_required(pagar), name="pagar"),
     path('shopdetails/', shopdetails, name="shopdetails"),
     path('tienda/', tienda, name="tienda"),
     path('carrito/', login_required(carrito), name="carrito"),
-    
+    path('historial', login_required(historial), name="historial"),
     #adms
     path('producto/adm-producto/', login_required(admproducto), name="admproducto"),
     path('admcorreo/', login_required(admcorreo), name="admcorreo"),
