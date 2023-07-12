@@ -46,13 +46,13 @@ class TiposproductoViewset(viewsets.ModelViewSet):
 
 #listar productos
 
-<<<<<<< HEAD
 
-=======
+
+
 @GRUPO_REQUERIDO('vendedor')
 @GRUPO_REQUERIDO('admin') 
 @GRUPO_REQUERIDO('cliente')
->>>>>>> bc2696d36a6fad7e913b82bf7e81922ecd671b17
+
 def tienda(request):
     ProductosAll = Producto.objects.all()
 
@@ -71,13 +71,11 @@ def tienda(request):
 
 
 
-<<<<<<< HEAD
 
-=======
 @GRUPO_REQUERIDO('vendedor')
 @GRUPO_REQUERIDO('admin') 
 @GRUPO_REQUERIDO('cliente')
->>>>>>> bc2696d36a6fad7e913b82bf7e81922ecd671b17
+
 def contact(request):
     return render(request, 'core/contact.html')
 
@@ -90,34 +88,29 @@ def shopdetails(request):
     return render(request, 'core/shop-details.html')
 
 
-<<<<<<< HEAD
 
-=======
 @GRUPO_REQUERIDO('cliente')
 @GRUPO_REQUERIDO('vendedor')
 @GRUPO_REQUERIDO('admin') 
->>>>>>> bc2696d36a6fad7e913b82bf7e81922ecd671b17
+
 def index(request):
     return render(request, 'core/index.html')
 
 @GRUPO_REQUERIDO('cliente')
-<<<<<<< HEAD
-=======
 @GRUPO_REQUERIDO('vendedor')
 @GRUPO_REQUERIDO('admin') 
->>>>>>> bc2696d36a6fad7e913b82bf7e81922ecd671b17
+
 def seguimiento(request):
     
 
     return render(request, 'core/seguimiento.html')
 
 @GRUPO_REQUERIDO('cliente')
-<<<<<<< HEAD
-=======
+
 @GRUPO_REQUERIDO('vendedor')
 @GRUPO_REQUERIDO('admin') 
 @login_required
->>>>>>> bc2696d36a6fad7e913b82bf7e81922ecd671b17
+
 def carrito(request):
     carrito = Carrito.objects.all()
     producto = Producto.objects.all()
@@ -322,22 +315,16 @@ def historial(request):
     return render(request, 'core/historial.html',data)
 
 
-<<<<<<< HEAD
 
-=======
 @GRUPO_REQUERIDO('vendedor')
 @GRUPO_REQUERIDO('admin') 
->>>>>>> bc2696d36a6fad7e913b82bf7e81922ecd671b17
 @GRUPO_REQUERIDO('cliente')
 def pagar(request):
     productos = Producto.objects.all()
     respuesta = requests.get('https://mindicador.cl/api/dolar').json()
     valor_usd = respuesta['serie'][0]['valor']
-<<<<<<< HEAD
     valor_carrito = 30000
-=======
     valor_carrito = 20 
->>>>>>> bc2696d36a6fad7e913b82bf7e81922ecd671b17
     valor_total = valor_carrito/valor_usd
     datos = {
         'valor' : round(valor_total,2),
