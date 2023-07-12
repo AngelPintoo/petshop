@@ -49,9 +49,7 @@ class TiposproductoViewset(viewsets.ModelViewSet):
 
 
 
-@GRUPO_REQUERIDO('vendedor')
-@GRUPO_REQUERIDO('admin') 
-@GRUPO_REQUERIDO('cliente')
+
 
 def tienda(request):
     ProductosAll = Producto.objects.all()
@@ -72,16 +70,12 @@ def tienda(request):
 
 
 
-@GRUPO_REQUERIDO('vendedor')
-@GRUPO_REQUERIDO('admin') 
-@GRUPO_REQUERIDO('cliente')
+
 
 def contact(request):
     return render(request, 'core/contact.html')
 
-@GRUPO_REQUERIDO('cliente')
-@GRUPO_REQUERIDO('vendedor')
-@GRUPO_REQUERIDO('admin') 
+
 def shopdetails(request):
     
     
@@ -89,27 +83,18 @@ def shopdetails(request):
 
 
 
-@GRUPO_REQUERIDO('cliente')
-@GRUPO_REQUERIDO('vendedor')
-@GRUPO_REQUERIDO('admin') 
+
 
 def index(request):
     return render(request, 'core/index.html')
 
-@GRUPO_REQUERIDO('cliente')
-@GRUPO_REQUERIDO('vendedor')
-@GRUPO_REQUERIDO('admin') 
+
 
 def seguimiento(request):
     
 
     return render(request, 'core/seguimiento.html')
 
-@GRUPO_REQUERIDO('cliente')
-
-@GRUPO_REQUERIDO('vendedor')
-@GRUPO_REQUERIDO('admin') 
-@login_required
 
 def carrito(request):
     carrito = Carrito.objects.all()
@@ -316,9 +301,6 @@ def historial(request):
 
 
 
-@GRUPO_REQUERIDO('vendedor')
-@GRUPO_REQUERIDO('admin') 
-@GRUPO_REQUERIDO('cliente')
 def pagar(request):
     productos = Producto.objects.all()
     respuesta = requests.get('https://mindicador.cl/api/dolar').json()
