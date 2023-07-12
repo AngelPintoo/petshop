@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'colorfield',
     'crispy_forms',
-    ##'pillow',
     'rest_framework',
     'paypalcheckoutsdk',
 ]

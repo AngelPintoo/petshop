@@ -1,7 +1,7 @@
 
 from django.shortcuts import render,redirect
 from .models import * 
-from .forms import *
+from .forms import ProductoForm, CustomUserCreationForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 from rest_framework import viewsets
@@ -9,24 +9,26 @@ from .serializers import *
 import requests 
 from django.http import Http404
 from django.contrib.auth.decorators import login_required, user_passes_test
-
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.models import Group, User
 
 #FUNCION GENERICA VALIDA GRUPOS
 #EL USO: @GRUPO_REQUERIDO('cliente')
 def GRUPO_REQUERIDO(nombre_grupo):
-    def decorator(view_func):
+    def decorator(view_fuc):
         @user_passes_test(lambda user: user.groups.filter(name=nombre_grupo).exists())
-        def wrapper(request, *args, **kwargs):
-            return view_func(request, *args, **kwargs)
-
+        def wrapper(request, *arg, **kwargs):
+            return view_fuc(request, *arg, **kwargs)
         return wrapper
-
     return decorator
 
 #from django.contrib.auth.models import Group
 #grupo = Group.objects.get(name='cliente')
-#user.groups.add(grupo,tuloncio)
+#user.groups.add(grupo)
 #se encarga de mostrar en la lista los datos de datos
+
+#grupo = Group.objects.get(name='cliente')
+#user. groups.add(grupo)
 
 class ProductoViewset(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
@@ -40,18 +42,12 @@ class TiposproductoViewset(viewsets.ModelViewSet):
     serializer_class = TiposProductosSeralizer
 
 
-class TipoUsuarioViewset(viewsets.ModelViewSet):
-    queryset = TipoUsuario.objects.all()
-    # queryset = Producto.objets.filter(tipo=1)
-    serializer_class = TiposUsuarioSeralizer
 
-
-class UsuarioViewset(viewsets.ModelViewSet):
-    queryset = Usuario.objects.all()
-    # queryset = Producto.objets.filter(tipo=1)
-    serializer_class = UsuarioSeralizer
 
 #listar productos
+
+@GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin') 
 @GRUPO_REQUERIDO('cliente')
 def tienda(request):
     ProductosAll = Producto.objects.all()
@@ -69,70 +65,70 @@ def tienda(request):
         carrito.save()
     return render(request, 'core/tienda.html', datos)
 
-@GRUPO_REQUERIDO('cliente')
-def pagar(request):
-    productos = Productos.objects.all()
-    carro = Carrito.object.all()
-    respuesta = requests.get('https://mindicador.cl/api/dolar').json()
-    valor_usd = respuesta['serie'][0]['valor']
-    valor_carrito = 30000 # aqui en vez de 30000 va el total de compra del carrito
-    valor_total = valor_carrito/valor_usd
-    datos = {
-        'valor' : round(valor_total,2),
-        'lp'    : productos,
-        'lc'    : carro
-}
-
-    return render(request,'core/pagar.html', datos)
 
 
+@GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin') 
 @GRUPO_REQUERIDO('cliente')
 def contact(request):
     return render(request, 'core/contact.html')
 
 @GRUPO_REQUERIDO('cliente')
+@GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin') 
 def shopdetails(request):
+    
+    
     return render(request, 'core/shop-details.html')
 
+
 @GRUPO_REQUERIDO('cliente')
+@GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin') 
 def index(request):
     return render(request, 'core/index.html')
 
 @GRUPO_REQUERIDO('cliente')
-def despacho(request):
-    despacho = Despacho.objects.all()
-    estado = Estado.objects.all()
-    datos = {
-        'despacho'  : despacho,
-        'estado' : estado
-        
-    }
+@GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin') 
+def seguimiento(request):
     
-    return render(request, 'core/despacho.html',datos)
+
+    return render(request, 'core/seguimiento.html')
 
 @GRUPO_REQUERIDO('cliente')
+@GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin') 
 @login_required
 def carrito(request):
-
     carrito = Carrito.objects.all()
-    productos = Producto.objects.all()
-
- 
+    producto = Producto.objects.all()
+    a=0
+    
     datos = {
         'lc': carrito,
-        'lp': productos,
+        'lp': producto,
+        'a' : a
     }
+    
+
     if request.method == 'POST':
-        producto = request.POST.get('id_producto')
-        carrito = Carrito.objects.get(id_producto = producto)
+        ab = request.POST.get('id_carro')
+        carrito = Carrito.objects.get(id = ab)
         carrito.delete()
-        messages.succes(request, "Producto eliminado correctamente del carrito")
+        a = request.POST.get('a')
+        if a> 0:
+            total_carrito(a)
+        
+
+
     
 
     return render(request, 'core/carrito.html', datos)
 
 
 @GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')  
 @login_required
 def eliminar_producto(request, producto_id):
     usuario = request.user
@@ -149,24 +145,30 @@ def eliminar_producto(request, producto_id):
     return redirect('carrito')
 
 @GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')  
 def administrador(request):
     return render(request, 'core/administrador.html')
 
 @GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')  
 def admproducto(request):
     productosListados = Producto.objects.all()
     return render(request, 'core/producto/adm-producto.html', {"listado":productosListados})
 
 @GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')  
 def admcorreo(request):
     return render(request, 'core/correo/adm-correo.html')
 
+@GRUPO_REQUERIDO('cliente')
 @GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')   
 def registro(request):
     return render(request,'registration/registro.html')
 
 #CRUD
 @GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')   
 def add(request):
     data = {
         'form' : ProductoForm()
@@ -179,7 +181,9 @@ def add(request):
             messages.success(request, "Producto Almacenado Correctamente")
 
     return render(request, 'core/producto/add-product.html', data)
+
 @GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')   
 def update(request,id):
     producto = Producto.objects.get(id=id)
     data = {
@@ -195,7 +199,8 @@ def update(request,id):
     
     return render(request, 'core/producto/update-product.html', data)
     
-@GRUPO_REQUERIDO('vendedor')  
+@GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')   
 def delete(request,id):
     producto = Producto.objects.get(id=id)
     producto.delete()
@@ -204,6 +209,7 @@ def delete(request,id):
 
 #CRUD Empleado
 @GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')   
 def addEmp(request):
     data = {
         'form': EmpleadoForm()
@@ -219,6 +225,7 @@ def addEmp(request):
     return render(request, 'core/correo/add-correo.html', data)
 
 @GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')   
 def updateEmp(request, id):
     empleado = Empleado.objects.get(id=id)
     data = {
@@ -235,7 +242,8 @@ def updateEmp(request, id):
     
     return render(request, 'core/correo/update-correo.html', data)
     
-@GRUPO_REQUERIDO('vendedor')   
+@GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin')   
 def deleteEmp(request, id):
     empleado = Empleado.objects.get(id=id)
     empleado.delete()
@@ -256,24 +264,59 @@ def tiendaapi(request):
 
 
 # crud de auth
-def registro_usuario(request):
-    datos = {
-        'form' : registroUsuarioForm()
-    }
-    if request.method == 'POST':
-        formulario = registroUsuarioForm(request.POST)
-        if formulario.is_valid():
-            usuario = formulario.save()
-            group = Group.objects.get(name='cliente')
-            group.user_set.add(usuario)
-            formulario.save()
-            messages.success(request,'Usuario guardado correctamente!')
-    return render(request,'registration/registro.html',datos) 
 
-def total_carrito(request):
-    total = 1
+
+
+def registro(request):
     data = {
-        'total' : total
+        'form': CustomUserCreationForm()
+    }
+
+    if request.method == 'POST':
+        formulario = CustomUserCreationForm(data=request.POST)
+        if formulario.is_valid():
+            user = formulario.save()
+            grupo = Group.objects.get(name='cliente')
+            user.groups.add(grupo)
+            user = authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    messages.success(request, "Te has registrado correctamente")
+        else:
+            data["form"] = formulario
+
+    return render(request, 'registration/registro.html', data)
+
+def total_carrito(request,totale):
+    datos = {
+        'total' : totale
 
     }
-    return render(request, 'core/pagar.html',data)
+    return render(request, 'core/pagar.html',datos)
+
+def historial(request):
+    o = Paginator.objects.all()
+    data = {
+        'lp' : o  
+    }
+
+    return render(request, 'core/historial.html',data)
+
+
+@GRUPO_REQUERIDO('vendedor')
+@GRUPO_REQUERIDO('admin') 
+@GRUPO_REQUERIDO('cliente')
+def pagar(request):
+    productos = Producto.objects.all()
+    respuesta = requests.get('https://mindicador.cl/api/dolar').json()
+    valor_usd = respuesta['serie'][0]['valor']
+    valor_carrito = 20 
+    valor_total = valor_carrito/valor_usd
+    datos = {
+        'valor' : round(valor_total,2),
+        'lp'    : productos
+
+}
+
+    return render(request,'core/pagar.html', datos)

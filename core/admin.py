@@ -3,6 +3,12 @@ from .models import *
 
 # Register your models here.
 
+class EstadoAdmin(admin.ModelAdmin):
+    list_display=['id','desc']
+    search_fields=['desc']
+    list_per_page= 4
+    
+admin.site.register(Est, EstadoAdmin)
 
 class ProductoAdmin(admin.ModelAdmin):
     list_display = ['nombre','precio','stock','descripcion','tipo']
@@ -14,20 +20,10 @@ class ProductoAdmin(admin.ModelAdmin):
 admin.site.register(TiposProductos)
 admin.site.register(Producto,ProductoAdmin)
 
-class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ['nombre_usuario','edad','rut','direccion','correo']
-    search_fields = ['nombre']
-    list_per_page = 10
-    list_editable = ['edad','rut','direccion','correo']
-
-admin.site.register(TipoUsuario)
-admin.site.register(Usuario,UsuarioAdmin)
-
 class SeguimientoAdmin(admin.ModelAdmin):
-    list_display = ['estado']
-    search_fields = ['estado']
+    list_display = ['id']
+    search_fields = ['id']
     list_per_page = 4
-
 admin.site.register(Seguimiento, SeguimientoAdmin)
 
 class SubscripcionAdmin(admin.ModelAdmin):
@@ -48,8 +44,12 @@ admin.site.register(Carrito,CarritoAdmin)
 
 
 class HistorialAdmin(admin.ModelAdmin):
-    list_display = ['nombre_Producto','direccion','precio','pago']
-    search_fields = ['nombre_Producto'] 
+    list_display = ['codigoCompra','direccion','precio']
+    search_fields = ['codigoCompra'] 
     list_per_page = 10
 
 admin.site.register(Historial,HistorialAdmin)
+
+
+
+
